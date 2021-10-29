@@ -4,7 +4,6 @@ import './App.css';
 const BOARD_SIZE =10;
 const DEFAULT_CELLS_VALUE = Array(BOARD_SIZE).fill(Array(BOARD_SIZE).fill(0))
 const AVAILABLE_MOVES = ['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft']
-const SPEED = 300;
 
 const checkAvailableSlot = position => {
   switch (true) {
@@ -21,13 +20,17 @@ const App = () => {
   const [snake, setSnake] = React.useState([[1,1]]);
   const [food, setFood] = React.useState([0, 0]);
   const [direction, setDirection] = React.useState(AVAILABLE_MOVES[0]);
-  const [speed, setSpeed] = React.useState(SPEED);
+  const [speed, setSpeed] = React.useState(300);
 
   const hadleKeyDown = (event) => {
     const index = AVAILABLE_MOVES.indexOf(event.key)
     if (index > -1) {
       setDirection(AVAILABLE_MOVES[index])
     }
+  }
+
+  function newSpeed() {
+    setSpeed(speed +100);
   }
 
   const generateFood = () => {
@@ -69,10 +72,15 @@ const App = () => {
     if (head[0] === food[0] && head[1] === food[1]) {
       spliceIndex = 0
       generateFood()
+      newSpeed()
     }
     setSnake(newSnake)
     setSnake(newSnake.slice(spliceIndex))
   }, speed)
+}
+
+function gameOver() {
+
 }
 
   React.useEffect(() => {
